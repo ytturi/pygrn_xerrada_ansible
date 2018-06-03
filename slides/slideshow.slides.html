@@ -11919,8 +11919,11 @@ a.anchor-link {
 <h1 id="Qu&#232;-&#233;s-Ansible">Qu&#232; &#233;s Ansible<a class="anchor-link" href="#Qu&#232;-&#233;s-Ansible">&#182;</a></h1><ul>
 <li>Ansible és una eina que ens permet instalar i actualitzar paquets remotament.</li>
 <li>Ansible és una aplicació server-side, és a dir, que no l'hem d'instalar a tots els clients.</li>
-<li>Ansible és un paquet de python, per utilitzar-lo únicament necessitem fer <code>pip install ansible</code></li>
 </ul>
+<h2 id="Com-l'Instalem?">Com l'Instalem?<a class="anchor-link" href="#Com-l'Instalem?">&#182;</a></h2><p>Ansible és un paquet de python, així que com amb la resta de paquets utilitzarem pip</p>
+<p><code>pip install ansible</code></p>
+<p>Ansible també permet instalar sense utilitzar pip, però s'utilitza altre software.
+Ho podeu veure revisant la <a href="https://docs.ansible.com/ansible/2.4/intro_installation.html">documentació</a></p>
 
 </div>
 </div>
@@ -11956,24 +11959,25 @@ en aplicarla a un terme, el resultat és el mateix que el terme.</p>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Estructura-recomanada-(I)">Estructura recomanada (I)<a class="anchor-link" href="#Estructura-recomanada-(I)">&#182;</a></h1>
-<pre><code>production                # inventory file for production servers
-staging                   # inventory file for staging environment
+<h1 id="Estructura-recomanada-(I)">Estructura recomanada (I)<a class="anchor-link" href="#Estructura-recomanada-(I)">&#182;</a></h1><blockquote><div class="highlight"><pre><span></span>production       <span class="c1"># inventory file for production servers</span>
+staging          <span class="c1"># inventory file for staging environment</span>
 
 group_vars/
-   group1                 # here we assign variables to particular groups
-   group2                 # ""
+  group1        <span class="c1"># here we assign variables to particular</span>
+  group2        <span class="c1"># groups</span>
 host_vars/
-   hostname1              # if systems need specific variables, put them here
-   hostname2              # ""
+  hostname1     <span class="c1"># if systems need specific variables,</span>
+  hostname2     <span class="c1"># put them here</span>
 
-library/                  # if any custom modules, put them here (optional)
-module_utils/             # if any custom module_utils to support modules, put them here (optional)
-filter_plugins/           # if any custom filter plugins, put them here (optional)
+library/         <span class="c1"># if any custom modules (optional)</span>
+module_utils/    <span class="c1"># if any custom module_utils (optional)</span>
+filter_plugins/  <span class="c1"># if any custom filter plugins (optional)</span>
 
-site.yml                  # master playbook
-webservers.yml            # playbook for webserver tier
-dbservers.yml             # playbook for dbserver tier</code></pre>
+site.yml         <span class="c1"># master playbook</span>
+webservers.yml   <span class="c1"># playbook for webserver tier</span>
+dbservers.yml    <span class="c1"># playbook for dbserver tier</span>
+</pre></div>
+</blockquote>
 
 </div>
 </div>
@@ -11982,27 +11986,32 @@ dbservers.yml             # playbook for dbserver tier</code></pre>
 </div>
 <div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h1 id="Estructura-recomanada-(II)">Estructura recomanada (II)<a class="anchor-link" href="#Estructura-recomanada-(II)">&#182;</a></h1>
-<pre><code>roles/
-    common/               # this hierarchy represents a "role"
-        tasks/            #
-            main.yml      #  &lt;-- tasks file can include smaller files if warranted
-        handlers/         #
-            main.yml      #  &lt;-- handlers file
-        templates/        #  &lt;-- files for use with the template resource
-            ntp.conf.j2   #  &lt;------- templates end in .j2
-        files/            #
-            bar.txt       #  &lt;-- files for use with the copy resource
-            foo.sh        #  &lt;-- script files for use with the script resource
-        vars/             #
-            main.yml      #  &lt;-- variables associated with this role
-        defaults/         #
-            main.yml      #  &lt;-- default lower priority variables for this role
-        meta/             #
-            main.yml      #  &lt;-- role dependencies
-        library/          # roles can also include custom modules
-        module_utils/     # roles can also include custom module_utils
-        lookup_plugins/   # or other types of plugins, like lookup in this case</code></pre>
+<h1 id="Estructura-recomanada-(II)">Estructura recomanada (II)<a class="anchor-link" href="#Estructura-recomanada-(II)">&#182;</a></h1><blockquote><div class="highlight"><pre><span></span>roles/
+ common/          <span class="c1"># this hierarchy represents a &quot;role&quot;</span>
+   tasks/         
+     main.yml     <span class="c1"># &lt;- tasks file can include smaller files</span>
+                  <span class="c1">#    if warranted</span>
+   handlers/      
+     main.yml     <span class="c1"># &lt;- handlers file</span>
+   templates/     <span class="c1"># &lt;- files for use with the template</span>
+                  <span class="c1">#    resource</span>
+     ntp.conf.j2  <span class="c1"># &lt;-- templates end in .j2</span>
+   files/         <span class="c1">#</span>
+     bar.txt      <span class="c1"># &lt;- files for use with the copy resource</span>
+     foo.sh       <span class="c1"># &lt;- script files for use with the script</span>
+                  <span class="c1">#    resource</span>
+   vars/          <span class="c1">#</span>
+     main.yml     <span class="c1"># &lt;- variables associated with this role</span>
+   defaults/      <span class="c1">#</span>
+     main.yml     <span class="c1"># &lt;- default lower priority variables</span>
+                  <span class="c1">#    for this role</span>
+   meta/          <span class="c1">#</span>
+     main.yml     <span class="c1"># &lt;- role dependencies</span>
+   library/       <span class="c1"># roles can also include custom modules</span>
+   module_utils/  <span class="c1"># roles can also include custom </span>
+                  <span class="c1">#     module_utils</span>
+</pre></div>
+</blockquote>
 
 </div>
 </div>
@@ -12061,10 +12070,13 @@ dbservers.yml             # playbook for dbserver tier</code></pre>
 <h1 id="Estructura-dels-inventaris-(III)">Estructura dels inventaris (III)<a class="anchor-link" href="#Estructura-dels-inventaris-(III)">&#182;</a></h1><h2 id="Format-cl&#224;ssic-(exemple)">Format cl&#224;ssic (exemple)<a class="anchor-link" href="#Format-cl&#224;ssic-(exemple)">&#182;</a></h2>
 <pre><code>[web]
 servidor_web  192.168.1.100
+
 [documentacio]
 docs_ansible  192.168.1.101  ansible_ssh_user=ansible src=/home/ansible/src
+
 [web:children]
 documentacio
+
 [web:vars]
 ansible_ssh_user: webmaster</code></pre>
 
@@ -12107,6 +12119,255 @@ ansible_ssh_user: webmaster</code></pre>
         <span class="l l-Scalar l-Scalar-Plain">ansible_ssh_user</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">webmaster</span>
 </pre></div>
 
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(I)">Estructura dels playbooks (I)<a class="anchor-link" href="#Estructura-dels-playbooks-(I)">&#182;</a></h1><h2 id="Format">Format<a class="anchor-link" href="#Format">&#182;</a></h2><p>Compleix el format Yaml, pel que tot el fitxer es representa en format d'arbre.</p>
+<ol>
+<li>Estructura de bàsica<ul>
+<li>Definició de hosts afectats (<code>hosts</code>)</li>
+<li>Definició de variables ANSIBLE</li>
+<li>Definició de variables per defecte (<code>vars</code>)</li>
+<li>Definició de tasques (<code>tasks</code>)</li>
+<li>Definició de handlers (<code>handlers</code>)</li>
+</ul>
+</li>
+</ol>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(II)">Estructura dels playbooks (II)<a class="anchor-link" href="#Estructura-dels-playbooks-(II)">&#182;</a></h1><h2 id="Format">Format<a class="anchor-link" href="#Format">&#182;</a></h2><div class="highlight"><pre><span></span><span class="nn">---</span>
+<span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">hosts</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;grups o hostnames separats per &quot;:&quot;&gt;</span>
+  <span class="l l-Scalar l-Scalar-Plain">&lt;nom de la variable ANSIBLE&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor de la variable ANSIBLE&gt;</span>
+  <span class="l l-Scalar l-Scalar-Plain">vars</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">&lt;nom de la variable&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor de la variable&gt;</span>
+  <span class="l l-Scalar l-Scalar-Plain">tasks</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;nom de la tasca&gt;</span>
+      <span class="l l-Scalar l-Scalar-Plain">&lt;nom del mòdul a utilitzar&gt;</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">&lt;variable del mòdul&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor de la variable&gt;</span>
+      <span class="l l-Scalar l-Scalar-Plain">&lt;paràmetre de tasca&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor del paràmetre&gt;</span>
+  <span class="l l-Scalar l-Scalar-Plain">handlers</span><span class="p p-Indicator">:</span>
+    <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;nom del handler&gt;</span>
+      <span class="l l-Scalar l-Scalar-Plain">&lt;nom del mòdul a utilitzar&gt;</span><span class="p p-Indicator">:</span>
+        <span class="l l-Scalar l-Scalar-Plain">&lt;variable del mòdul&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor de la variable&gt;</span>
+      <span class="l l-Scalar l-Scalar-Plain">&lt;paràmetre de tasca&gt;</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">&lt;valor del paràmetre&gt;</span>
+</pre></div>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(III)">Estructura dels playbooks (III)<a class="anchor-link" href="#Estructura-dels-playbooks-(III)">&#182;</a></h1><h2 id="Variables-dels-playbooks(I)">Variables dels playbooks(I)<a class="anchor-link" href="#Variables-dels-playbooks(I)">&#182;</a></h2><ul>
+<li>Variables ANSIBLE<ul>
+<li>Aquelles que ja venen integrades a ANSIBLE</li>
+<li>Són paràmetres per establir la connexió o realitzar la tasca</li>
+<li>i.e.: <ul>
+<li>ANSIBLE_SSH_USER: Usuari amb el que connectar-se</li>
+<li>BECOME_USER: Usuari a convertir-se (sudo) quan s'estableixi la connexió</li>
+<li>BECOME: Utilitzar SUDO</li>
+<li>IMPORT_PLAYBOOK: Executa un playbook prèvi a l'actual</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(IV)">Estructura dels playbooks (IV)<a class="anchor-link" href="#Estructura-dels-playbooks-(IV)">&#182;</a></h1><h2 id="Variables-dels-playbooks(II)">Variables dels playbooks(II)<a class="anchor-link" href="#Variables-dels-playbooks(II)">&#182;</a></h2><ul>
+<li>Variables (VARS) dins la tasca<ul>
+<li>Les variables es poden accedir en format JINJA2 (<code>"{{ nom_variable }}"</code>)</li>
+<li>Les variables es poden accedir mitjançant diccionaris (<code>nomgrup['nom_variable']</code>)</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(v)">Estructura dels playbooks (v)<a class="anchor-link" href="#Estructura-dels-playbooks-(v)">&#182;</a></h1><h2 id="Variables-dels-playbooks(III)">Variables dels playbooks(III)<a class="anchor-link" href="#Variables-dels-playbooks(III)">&#182;</a></h2><ul>
+<li>Paràmetres de tasca<ul>
+<li>Paràmetres que permeten lògica pre o post execució</li>
+<li>i.e.:<ul>
+<li>WHEN: Funciona com un IF, només executa si es compleix la condició</li>
+<li>NOTIFY: Llença un "signal" en acabar que ha de ser controlat per un HANDLER</li>
+<li>REGISTER: Guarda el resultat de la tasca en una variable</li>
+<li>IGNORE_ERRORS: Permet continuar el Playbook en cas d'error</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Estructura-dels-playbooks-(III)">Estructura dels playbooks (III)<a class="anchor-link" href="#Estructura-dels-playbooks-(III)">&#182;</a></h1><h2 id="Exemple">Exemple<a class="anchor-link" href="#Exemple">&#182;</a></h2>
+<pre><code>---
+- hosts: webservers
+  remote_user: root
+
+  tasks:
+  - name: write the apache config file
+    template:
+      src: /srv/httpd.j2
+      dest: /etc/httpd.conf
+    notify:
+      - restart apache
+
+  handlers:
+    - name: restart apache
+      service:
+        name: apache
+        state: restarted</code></pre>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Definici&#243;-de-Rols-(I)">Definici&#243; de Rols (I)<a class="anchor-link" href="#Definici&#243;-de-Rols-(I)">&#182;</a></h1><ul>
+<li>Permeten l'execució anidada de tasques<ul>
+<li>No cal que el playbook es trobi dins la carpeta de rols</li>
+<li>Afegirem la variable ANSIBLE <code>roles</code>, que és una llista amb els rols afectats</li>
+</ul>
+</li>
+</ul>
+
+<pre><code>---
+- hosts: all
+  roles:
+    - el_meu_rol</code></pre>
+<ul>
+<li>Cal definir-los en l'estructura de fitxers<ul>
+<li>Ho farem mantinguent l'estructura base, però ho colocarem sota dos directoris nous:<ul>
+<li>Roles: Directori base on es troben els rols<ul>
+<li>Nom del nostre rol: Directori on trobarem els fitxers relacionats amb el nostre rol</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Definici&#243;-de-Rols-(II)">Definici&#243; de Rols (II)<a class="anchor-link" href="#Definici&#243;-de-Rols-(II)">&#182;</a></h1>
+<pre><code>playbook.yml
+roles/
+  el_meu_rol/
+    tasks/
+    handlers/
+    files/
+    templates/
+    vars/
+    defaults/
+    meta/
+  un_altre_rol/
+    tasks/
+    handlers/
+    files/
+    templates/
+    vars/
+    defaults/
+    meta/</code></pre>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Documentaci&#243;">Documentaci&#243;<a class="anchor-link" href="#Documentaci&#243;">&#182;</a></h1><ul>
+<li>La documentació a ANSIBLE és molt important, ja que hi ha molts de mòduls i molts paràmetres</li>
+<li>Abans de fer qualsevol tasca, pensem que volem fer i busquem-ho<ul>
+<li>És molt probable que algú ja ho hagi fet</li>
+<li>Hi poden haver mòduls que ens ajudin amb el que volem fer</li>
+<li>I.e.: Actualitzar la configuració del "nostre" programa<ul>
+<li>Com que és nostre, ningú ha fet el mòdul</li>
+<li>Sabem que la configuració és un fitxer de text</li>
+<li>Sabem que només toquem una línia</li>
+<li>El mòdul "lineinfile" permet actualitzar una línia mitjançant regex i variables</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Ansible és molt flexible, té molts de paràmetres que permeten fer moltes coses<ul>
+<li>Per aquest motiu és molt difícil recordar-los</li>
+<li>Si busquem el que volem fer, és possible que ho trobem amb paràmetres</li>
+<li>I.e.: Executar un playbook amb un usuari i una tasca amb sudo?<ul>
+<li>Afegim el paràmetre <code>become: yes</code> a la tasca</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Bibliografia">Bibliografia<a class="anchor-link" href="#Bibliografia">&#182;</a></h1><ul>
+<li>Wikipedia: Idempotence - Wikipedia [Internet 2018] . Disponible al web: <a href="https://en.wikipedia.org/wiki/Idempotence">https://en.wikipedia.org/wiki/Idempotence</a></li>
+<li>Ansible: Ansible Documentation [Internet 2018]. Disponible al web: <a href="http://docs.ansible.com">http://docs.ansible.com</a><ul>
+<li>[Ansible] Installation Guide -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html">http://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html</a></li>
+<li>[Ansible] Variables -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html">http://docs.ansible.com/ansible/latest/user_guide/playbooks_variables.html</a></li>
+<li>[Ansible] Working with inventory -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html">http://docs.ansible.com/ansible/latest/user_guide/intro_inventory.html</a></li>
+<li>[Ansible] Playbooks -- Ansible Documentation. Disponible al web: <a href="https://docs.ansible.com/ansible/2.3/playbooks.html">https://docs.ansible.com/ansible/2.3/playbooks.html</a></li>
+<li>[Ansible] Working with playbooks -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/2.5/user_guide/playbooks_reuse_roles.html">http://docs.ansible.com/ansible/2.5/user_guide/playbooks_reuse_roles.html</a>
+<a href="http://docs.ansible.com/ansible/latest/user_guide/playbooks.html">http://docs.ansible.com/ansible/latest/user_guide/playbooks.html</a></li>
+<li>[Ansible] Roles -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/2.5/user_guide/playbooks_reuse_roles.html">http://docs.ansible.com/ansible/2.5/user_guide/playbooks_reuse_roles.html</a></li>
+<li>[Ansible] All modules -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html">http://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html</a></li>
+<li>[Ansible] lineinfile - Manage lines in text files -- Ansible Documentation. Disponible al web: <a href="http://docs.ansible.com/ansible/latest/modules/lineinfile_module.html">http://docs.ansible.com/ansible/latest/modules/lineinfile_module.html</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+</div></section></section><section><section>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Moltes-gr&#224;cies-per-escoltar">Moltes gr&#224;cies per escoltar<a class="anchor-link" href="#Moltes-gr&#224;cies-per-escoltar">&#182;</a></h1><h2 id="Preguntes?">Preguntes?<a class="anchor-link" href="#Preguntes?">&#182;</a></h2><h2 id="Anem-a-provar-ho?">Anem a provar-ho?<a class="anchor-link" href="#Anem-a-provar-ho?">&#182;</a></h2>
 </div>
 </div>
 </div>
