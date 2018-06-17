@@ -62,7 +62,12 @@ pip install ansible
     - [SHELL](https://docs.ansible.com/ansible/latest/modules/shell_module.html), permet executar una comanda en el servidor remot.
     - [COMMAND](https://docs.ansible.com/ansible/2.5/modules/command_module.html), executa una comanda en el servidor remot
 
-## Desplegament
+## Realització de la tasca
+
+Per tal de facilitar el procés, he extrapolat els processos que farem dins la tasca.
+
+Si ho necessiteu, he afegit "Tips" que mostren quines comandes executariem en local.
+Adicionalment, he afegit en cada pas alguns mòduls d'Ansible que us poden ser útils.
 
 ### Tractament de peticions HTTP/S
 
@@ -184,4 +189,17 @@ Realitzarem el build executant la comanda `mkdocs build -d "../built_docs"` des 
 
 ### Actualització dels fitxers a servir
 
+Aquesta part és la més senzilla. Com que tot ho servim via Nginx,
+símplement cal que els fitxers a servir es modifiquin.
 
+Ho podem fer de varies maneres:
+
+- Després de fer build, movem o copiem els fitxers en el directori que serveix el NginX.
+- Podem assegurar-nos de que hi ha un link de la carpeta dels fitxers a la carpeta que serveix NginX.
+
+??? Tip "Mòduls que us poden ajudar"
+    - FILE
+    - COMMAND
+
+
+## Desplegament
