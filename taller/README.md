@@ -33,6 +33,22 @@ mkvirtualenv ansible
 pip install ansible
 ```
 
+També caldrà configurar-nos un entorn per l'Ansible, per exemple seguint l'esquelet de les diapositives.
+
+```bash
+# Creem el directori arrel
+mkdir ~/projectes/pygrn_ansible
+cd ~/projectes/pygrn_ansible
+
+# Creem el directori de tasques
+mkdir tasks
+
+# Creem el fitxer d'inventari amb les direccions corresponents
+vim inventory.yml
+```
+
+A partir d'aqui podem treballar amb la tasca "`tasks/deploy_docs.yml`"
+
 ## Documentació
 
 ### Contingut utilitzat per aquesta documentació
@@ -203,3 +219,14 @@ Ho podem fer de varies maneres:
 
 
 ## Desplegament
+
+El desplegament amb ansible és senzill. Símplement utilitzarem la següent comanda:
+
+```
+# Primer cal estar on hem configurat l'entorn
+workon ansible
+cd ~/projectes/pygrn_ansible
+
+# Fem correr la tasca per un inventari en concret
+ansible-playbook tasks/deploy_docs.yml -i inventory.yml
+```
