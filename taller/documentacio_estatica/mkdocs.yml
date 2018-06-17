@@ -1,6 +1,7 @@
 site_name: Documentació desplegada
-theme: material
-
+theme:
+    name: 'material'
+    language: 'ca'
 
 markdown_extensions:
     - admonition
