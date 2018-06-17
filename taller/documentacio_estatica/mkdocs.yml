@@ -1,0 +1,10 @@
+site_name: Documentació desplegada
+theme: material
+
+
+markdown_extensions:
+    - admonition
+
+pages:
+    - Home: index.md
+    - Help: README.md
