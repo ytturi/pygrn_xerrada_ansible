@@ -90,5 +90,19 @@ Per tal de desplegar-ho, hem de pensar les passes que seguiriem en local i adapt
 !!! Info
     Podem utilitzar diverses configuracions per pujar el fitxer. 
 
+### Clonar el repositori
 
+Aquesta documentació es troba en el repositori de github de la xerrada: [github:ytturi/pygrn_xerrada_ansible](https://github.com/ytturi/pygrn_xerrada_ansible).
+
+Allà hi tenim el directori "`taller/documentacio_estatica`" on trobarem:
+
+- El fitxer de configuració de mkdocs ("mkdocs.yml"),
+- Els requeriments de pyhton ("requirements.txt") 
+- La documentació en format Markdown en el directori "docs".
+
+??? Note "Passes que realitzariem en local"
+    1. Anar al directori de projectes
+    2. Mirar si existeix el repositori
+        1. Si no hi és el clonem amb `git clone https://github.com/ytturi/pygrn_xerrada_ansible.git`
+        2. Si hi és, l'actualitzem amb `git pull`
 
