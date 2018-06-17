@@ -57,6 +57,10 @@ pip install ansible
     - [TEMPLATE](https://docs.ansible.com/ansible/latest/modules/template_module.html), realitzar un fitxer a partir del valor de diferents variables
     - [LineInFile](https://docs.ansible.com/ansible/latest/modules/lineinfile_module.html), assegurar-nos que hi ha (o no) una línia en el fitxer
     - [REPLACE](https://docs.ansible.com/ansible/latest/modules/replace_module.html), reemplaça totes les instàncies de les línies indicades pel valor indicat
+- Execució remota de shell:
+    - [SCRIPT](https://docs.ansible.com/ansible/latest/modules/script_module.html), ens permet executar un script de shell, ja estigui en local o en remot, en el servidor remot
+    - [SHELL](https://docs.ansible.com/ansible/latest/modules/shell_module.html), permet executar una comanda en el servidor remot.
+    - [COMMAND](https://docs.ansible.com/ansible/2.5/modules/command_module.html), executa una comanda en el servidor remot
 
 ## Desplegament
 
@@ -84,11 +88,14 @@ Per tal de desplegar-ho, hem de pensar les passes que seguiriem en local i adapt
         !!! Warning
             Com que utilitzem fitxers protegits cal utilitzar **sudo**!
 
+    ??? Tip "Mòduls que ens poden ajudar"
+        - APT
+        - File
+        - Copy
+
 !!! Info
     No cal que compilem, utilitzem el mateix que podria venir amb un debian amb els repositoris de APT.
 
-!!! Info
-    Podem utilitzar diverses configuracions per pujar el fitxer. 
 
 ### Clonar el repositori
 
@@ -105,7 +112,76 @@ Allà hi tenim el directori "`taller/documentacio_estatica`" on trobarem:
     2. Mirar si existeix el repositori
         1. Si no hi és el clonem amb `git clone https://github.com/ytturi/pygrn_xerrada_ansible.git`
         2. Si hi és, l'actualitzem amb `git pull`
+        
+    ??? Tip "Mòduls que ens poden ajudar"
+        - GIT
 
 ### Configurar Python
+
+Volem utilitzar MkDocs per realitzar el render de la pàgina. 
+Però com fem (o hauriem de fer) amb la resta de projectes que treballem,
+és millor instalar els requeriments en un virtualenv.
+
+Per aquest motiu, el que farem serà utilitzar un virtualenv on hi instalarem els requeriments del repositori.
+
+??? Note "Passes que realitzariem en local"
+    1. Mirar si existeix la carpeta del virtualenv i activar-lo
+        1. Si no existeix, en creem un de nou
+    2. Anar a la carpeta del projecte
+    3. Instalar els requeriments del projecte (del fitxer requirements.txt)
+
+    ??? Tip "Mòduls que ens poden ajudar"
+        - PIP
+
 ### Build de la documentació
+
+Una vegada tenim l'entorn preparat, hem de realitzar build de la documentació per servir-la.
+Realitzarem el build executant la comanda `mkdocs build -d "../built_docs"` des del virtualenv anterior.
+
+??? Tip "Executar una comanda des d'un virtualenv sense ser-hi"
+    Per tal d'executar una comanda des d'un virtualenv en una sola línia podem cridar-la utilitzant
+    tot el _path_ del virtualenv.
+
+    Per exemple si tenim el virtualenv en el directori: `/home/usuari/.virtualenvs/documentacio`
+
+    Podem utilitzar: `/home/usuari/.virtualenvs/documentacio/bin/mkdocs`
+ 
+
+??? Question "Sempre cal fer build de la documentació?"
+
+    No sempre cal fer build. Però en el repositori tenim Markdown, i els fitxers a servir són HTML.
+
+    Com sabem si s'han modificat?
+
+    Aquests casos són més difícils de tractar, pel que millor fem build cada vegada.
+
+!!! Important
+    Per tal de tocar més funcionalitats d'Ansible, com els condicionals i els "register", 
+    afegirem la següent condició en aquest pas:
+
+    - Si ja teniem el repositori clonat i no s'ha d'actualitzar
+
+!!! Important
+    Si no ho heu fet fins ara, sería interessant que utilitzessiu variables per els directoris afectats:
+
+    - Virtualenv
+    - Documentació
+    - HTML
+
+    Si ho feu, podreu executar la comanda utilitzant-les, com ara:
+
+    `{{ venv }}/bin/mkdocs build -c {{ docs }}/mkdocs.yml  -d {{ projectes }}/built_docs`
+
+??? Note "Passes que realitzariem en local"
+    1. En el pas de "[Clonar el repositori](#clonar-el-repositori)" ja sabrem si s'ha actualitzat o
+       ha canviat algun fitxer del repositori. Si no ha canviat res, no farem aquest pas.
+    2. Realitzarem el build executant la comanda `mkdocs build -d "../built_docs"`
+
+    ??? Tip "Mòduls que ens poden ajudar"
+        - SCRIPT
+        - SHELL
+        - COMMAND
+
 ### Actualització dels fitxers a servir
+
+
