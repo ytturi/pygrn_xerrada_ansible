@@ -106,3 +106,6 @@ Allà hi tenim el directori "`taller/documentacio_estatica`" on trobarem:
         1. Si no hi és el clonem amb `git clone https://github.com/ytturi/pygrn_xerrada_ansible.git`
         2. Si hi és, l'actualitzem amb `git pull`
 
+### Configurar Python
+### Build de la documentació
+### Actualització dels fitxers a servir
