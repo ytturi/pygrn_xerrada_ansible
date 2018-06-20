@@ -1,0 +1,17 @@
+---
+
+- name: install nginx
+  apt: pkg=nginx
+
+- name: "uwsgi configuration file"
+  template:
+    src: default.j2
+    dest: /etc/nginx/sites-available/default
+
+- name: "Create default.conf directory"
+  file:
+      path=/etc/nginx/sites-available/default.conf/
+      state=directory
+      mode=755
+      owner=root
+      group=root

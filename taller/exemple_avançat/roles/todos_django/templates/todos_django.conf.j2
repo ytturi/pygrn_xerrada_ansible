@@ -1,0 +1,9 @@
+    # Static files
+    location ~ ^/apps/todos_django/static/(?<resource>.*)$ {
+            alias /data/apps/todos_django/static/$resource;
+    }
+
+    location ~ ^/apps/todos_django/(.*) {
+            include uwsgi_params;
+            uwsgi_pass unix:/data/apps/todos_django/run/uwsgi.sock;
+    }
