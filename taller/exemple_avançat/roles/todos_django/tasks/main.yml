@@ -1,0 +1,89 @@
+---
+
+# simplified version of https://github.com/giscube/giscube-uwsgi-app-ansible
+
+- name: "Create app directory {{ APP_PATH }}"
+  file:
+      path={{ apps_root }}/todos_django/
+      state=directory
+      mode=755
+      owner=root
+      group=root
+
+- name: "Create app directory {{ APP_PATH }}"
+  file:
+      path={{ apps_root }}/todos_django/run/
+      state=directory
+      mode=750
+      owner=www-data
+      group=www-data
+
+- name: "Create app directory {{ APP_PATH }}"
+  file:
+      path={{ apps_root }}/todos_django/src/
+      state=directory
+      mode=750
+      owner=www-data
+      group=www-data
+
+- name: Git checkout from public repo
+  git:
+    repo: https://github.com/pygrn/todos_django.git
+    dest: "{{ apps_root }}/todos_django/src/"
+    # force: overwrite changes to files
+    force: yes
+  become_user: www-data
+
+- name: link source code to standard "app" dir
+  file: state=link owner=root group=root force=yes
+        src="{{ apps_root }}/todos_django/src"
+        dest="{{ apps_root }}/todos_django/app"
+
+- name: install virtualenv
+  apt: pkg=virtualenv
+
+- name: Create virtualenv python 3
+  pip:
+      virtualenv_python=python3
+      virtualenv="{{ apps_root }}/todos_django/venv/"
+      name=pip
+      state=latest
+
+- name: "install app requirements from {{ APP_PATH }}/src/{{ APP_REQUIREMENTS }}"
+  pip:
+    virtualenv={{ apps_root }}/todos_django/venv/
+    requirements={{ apps_root }}/todos_django/src/requirements.txt
+
+- name: run migrations
+  django_manage:
+    command: migrate
+    app_path: "{{ apps_root }}/todos_django/app/"
+    virtualenv: "{{ apps_root }}/todos_django/venv/"
+  environment:
+    ENVIRONMENT_NAME: "pygrn"
+
+- name: copy app static files
+  django_manage:
+    command: collectstatic
+    app_path: "{{ apps_root }}/todos_django/app/"
+    virtualenv: "{{ apps_root }}/todos_django/venv/"
+  environment:
+    ENVIRONMENT_NAME: "pygrn"
+    STATIC_ROOT: "{{ apps_root }}/todos_django/static/"
+
+- name: "uwsgi configuration file"
+  template:
+    src: uwsgi.ini.j2
+    dest: /etc/uwsgi/apps-available/todos_django.ini
+
+- name: "enable uwsgi application"
+  file: state=link owner=root group=root force=yes
+        src="/etc/uwsgi/apps-available/todos_django.ini"
+        dest="/etc/uwsgi/apps-enabled/todos_django.ini"
+
+- name: "nginx config"
+  template:
+    src: todos_django.conf.j2
+    dest: /etc/nginx/sites-available/default.conf/todos_django.conf
+  notify:
+    - restart nginx

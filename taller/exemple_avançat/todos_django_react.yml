@@ -1,0 +1,17 @@
+---
+
+- name: Install TODO application
+  hosts: all
+  remote_user: ubuntu
+  become: True
+  become_user: root
+
+  vars:
+    - html_root: /var/www/html
+    - apps_root: /data/apps
+
+  roles:
+    - role: nginx
+    - role: uwsgi
+    - role: todos_django
+    # - role: react-todo
